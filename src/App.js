@@ -1,23 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react';
 
 function App() {
+  const [listings, setListings] = useState([]);
+
+  useEffect(() => {
+    fetch('https://s3.us-west-2.amazonaws.com/cdn.number8.com/LA/listings.json')
+      .then(response => response.json())
+      .then(data => setListings(data));
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Listings Page</h1>
+      <ul>
+        {listings.map((listing, index) => (
+          <li key={index}>{listing.address}</li>
+        ))}
+      </ul>
     </div>
   );
 }
